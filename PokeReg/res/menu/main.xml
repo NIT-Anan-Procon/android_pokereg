@@ -1,0 +1,27 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jp.tatkeshi.pokereg.MainActivity" >
+
+    <item android:id="@+id/openCart" android:title="精算画面へ"></item><item android:id="@+id/startHistoryActivity" android:title="家計簿"></item><item android:id="@+id/useCamera" android:checkable="true" android:title="数値認識"></item><item android:id="@+id/editBudget" android:title="予算変更"></item>
+    <item android:id="@+id/toggle_hand" android:title="持ち手変更"></item><item android:id="@+id/includingTax" android:title="税込み入力" android:checkable="true"></item><item android:id="@+id/settingFlick" android:title="フリック設定"></item><item android:id="@+id/settingCategory" android:title="カテゴリの設定"></item><item android:id="@+id/selectWallpaper" android:title="壁紙選択"></item><item android:id="@+id/toggle_key_set_pattern" android:title="キーセット切り替え"></item><item android:id="@+id/tax" android:title="税率"></item><item
+        android:id="@+id/useBinarize"
+        android:title="二値化"
+        android:showAsAction="never"
+        android:checkable="true"
+        android:checked="true" android:visible="true"/>
+    <item android:id="@+id/binarizeThreshold" android:title="二値化閾値" android:visible="true"></item><item android:id="@+id/action_settings" android:orderInCategory="100" android:showAsAction="never" android:title="@string/action_settings" android:visible="false" />
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+</menu>

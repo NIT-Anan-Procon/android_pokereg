@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="jp.ac.anan_nct.pokereg.ReceiptDetailActivity" >
+    <item android:id="@+id/check" android:title="精算する" android:visible="false"></item><item android:id="@+id/showReceiptImage" android:title="レシート画像を見る"></item><item android:id="@+id/captureReceipt" android:title="レシート撮影"></item><item android:id="@+id/changeCategory" android:title="選択した項目のカテゴリを変更"></item>
+    <item android:id="@+id/deleteRows" android:title="選択した項目を削除"></item>
+    
+    
+    
+
+</menu>

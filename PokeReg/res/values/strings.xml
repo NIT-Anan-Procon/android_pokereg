@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">PokeReg</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="title_activity_flick_setting">FlickSettingActivity</string>
+    <string name="title_activity_edit_flick">EditFlickActivity</string>
+    <string name="title_activity_add_new_flick">AddNewFlickActivity</string>
+    <string name="title_activity_category">CategoryActivity</string>
+    <string name="title_activity_receipts">ReceiptsActivity</string>
+    <string name="title_activity_receipt_detail">ReceiptDetailActivity</string>
+    <string name="title_activity_capture_receipt">CaptureReceiptActivity</string>
+    <string name="title_activity_show_image">ShowImageActivity</string>
+
+</resources>
