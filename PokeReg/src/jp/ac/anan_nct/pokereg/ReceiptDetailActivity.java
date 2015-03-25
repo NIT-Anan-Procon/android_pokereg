@@ -1,6 +1,19 @@
 package jp.ac.anan_nct.pokereg;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.LinkedList;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import jp.ac.anan_nct.pokereg.entity.Category;
 import jp.ac.anan_nct.pokereg.entity.Data;
@@ -14,8 +27,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -219,11 +235,14 @@ public class ReceiptDetailActivity extends Activity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                		receipt = Data.getInstance().addCurrentReceiptToReceiptSet();
-                		Data.getInstance().initCurrentReceipt();
-                		Data.getInstance().setDetailReceipt(receipt);
-                		invalidateOptionsMenu();
-                		Toast.makeText(ReceiptDetailActivity.this, "精算しました", Toast.LENGTH_LONG).show();
+                    	
+                    	sendToServer();
+                    	
+                		//receipt = Data.getInstance().addCurrentReceiptToReceiptSet();
+                		//Data.getInstance().initCurrentReceipt();
+                		//Data.getInstance().setDetailReceipt(receipt);
+                		//invalidateOptionsMenu();
+                		
                     }
                 });
         alertDialogBuilder.setNegativeButton("いいえ", null);
@@ -231,6 +250,56 @@ public class ReceiptDetailActivity extends Activity {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 	}
+	
+	private void sendToServer(){
+		final HttpPost post = new HttpPost(Uri.parse("http://pokereg.tatkeshi.jp/api/pay_off").toString());
+		final HttpClient httpClient = new DefaultHttpClient();
+		final JSONObject jsonObject = new JSONObject();
+
+		try{
+			JSONArray things = new JSONArray();
+			for(ReceiptRow row : Data.getInstance().getCurrentReceipt()){
+				JSONObject thing = new JSONObject();
+				thing.put("price", row.getDiscountedPrice());
+				thing.put("amount", row.getAmount());
+				thing.put("category", row.getCategory().getCaption());
+				things.put(thing);
+			}
+			jsonObject.put("email", "tatkeshi@gmail.com");
+			jsonObject.put("password", "kojimatakeshi");
+			jsonObject.put("things", things);
+		}catch(Exception e){
+			Log.e("ERROR", e.toString());
+		}
+		
+        AsyncTask asyncTask = new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object[] p) {
+                ArrayList<NameValuePair> params = new ArrayList <NameValuePair>();
+                params.add( new BasicNameValuePair("data", jsonObject.toString()));
+                HttpResponse res = null;
+                try {
+                    post.setEntity(new UrlEncodedFormEntity(params, "utf-8"));
+                    res = httpClient.execute(post);
+                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(res.getEntity().getContent()));
+                    return bufferedReader.readLine();
+                } catch (Exception e) {
+                    return e.toString();
+                }
+           }
+            @Override
+            protected void onPostExecute(Object result) {
+            	Toast.makeText(ReceiptDetailActivity.this, result.toString(), Toast.LENGTH_LONG).show();
+
+        		Data.getInstance().initCurrentReceipt();
+        		invalidateOptionsMenu();
+            }
+        };
+        asyncTask.execute();
+	}
+	
+	
+	
 	private void doChangeCategory(){
 		final Spinner spinner = this.getCategoryViews();
         new AlertDialog.Builder(this)
